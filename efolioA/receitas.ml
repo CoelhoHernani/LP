@@ -29,51 +29,15 @@ type registo ={
 }
 
 (*Indicação nome do ficheiro para ler*)
-let ficheiro ="receitas.txt";;
-
-(*let lista : registo list = [];;*)
-let iterRegisto = -1;;
+let ficheiro ="receitas.csv";;
 
 let obterValorInteiro valor = (
   int_of_string valor
 );;
 
-(* Altera os valores no registo 
-  - Executa opção de alteração recebida
-  - Retorna Registo alterado *)
-  let preencherRegisto reg valor tipo = (
-    match tipo with
-    | 0 -> (reg.numero <- valor;reg)
-    | 1 -> (reg.nome <- valor;reg)
-    | 2 -> (reg.preparacao <- valor;reg)
-    | 3 -> (reg.ingrediente1 <- valor;reg)
-    | 4 -> (reg.qtdIng1 <- valor;reg)
-    | 5 -> (reg.ingrediente2 <- valor;reg)
-    | 6 -> (reg.qtdIng2 <- valor;reg)
-    | 7 -> (reg.ingrediente3 <- valor;reg)
-    | 8 -> (reg.qtdIng3 <- valor;reg)
-    | 9 -> (reg.ingrediente4 <- valor;reg)
-    | 10 -> (reg.qtdIng4 <- valor;reg)
-    | 11 -> (reg.ingrediente5 <- valor;reg)
-    | 12 -> (reg.qtdIng5 <- valor;reg)
-    | 13 -> (reg.ingrediente6 <- valor;reg)
-    | 14 -> (reg.qtdIng6 <- valor;reg)
-    | 15 -> (reg.ingrediente7 <- valor;reg)
-    | 16 -> (reg.qtdIng7 <- valor;reg)
-    | 17 -> (reg.ingrediente8 <- valor;reg)
-    | 18 -> (reg.qtdIng8 <- valor;reg)
-    | 19 -> (reg.ingrediente9 <- valor;reg)
-    | 20 -> (reg.qtdIng9 <- valor;reg)
-    | 21 -> (reg.ingrediente10 <- valor;reg)
-    | 22 -> (reg.qtdIng10 <- valor;reg)
-    | 23 -> (reg.ingrediente11 <- valor;reg)
-    | 24 -> (reg.qtdIng11 <- valor;reg)
-    | _ -> reg
-  );;
-
-  (*Obtém o valor em formato string, que se encontra na cabelça da lista recebida 
-  - Retorna String do facto - caso receba algo
-  - String vazia - caso lista vazia *)
+(*Obtém o valor em formato string, que se encontra na cabelça da lista recebida 
+- Retorna String do facto - caso receba algo
+- String vazia - caso lista vazia *)
 let obterValorString lista = (
   match lista with
   | [] -> " "
@@ -82,56 +46,82 @@ let obterValorString lista = (
 
  (*Separa os elementos da linha *)
 let separar linha = (   
-  iterRegisto = -1; 
-  let reg:registo = {numero=" ";nome=" ";preparacao=" ";ingrediente1=" ";qtdIng1=" ";ingrediente2=" ";qtdIng2=" ";
-  ingrediente3=" ";qtdIng3=" ";ingrediente4=" ";qtdIng4=" ";ingrediente5=" ";qtdIng5=" ";
-  ingrediente6=" ";qtdIng6=" ";ingrediente7=" ";qtdIng7=" ";ingrediente8=" ";qtdIng8=" ";
-  ingrediente9=" ";qtdIng9=" ";ingrediente10=" ";qtdIng10=" ";ingrediente11=" "; qtdIng11=" "} in
-  let tokens = (String.split_on_char 't' linha) in                                                     (* Separa os elementos da linah pelo ";" *)
-  let rec dados (tokens, reg) = (
-    match tokens with
-    | [] -> reg;
-    | h::t -> preencherRegisto reg (obterValorString t) (iterRegisto+1);
-  )
-  in dados(tokens, reg);
-
+  let tokens = (String.split_on_char '\t' linha) in   
+  {                                                  (* Separa os elementos da linah pelo "\t" *)
+  numero = List.nth tokens 0;
+  nome = List.nth tokens 1;
+  preparacao = List.nth tokens 2;
+  ingrediente1 = List.nth tokens 3;
+  qtdIng1 = List.nth tokens 4;
+  ingrediente2 = List.nth tokens 5;
+  qtdIng2 = List.nth tokens 6;
+  ingrediente3 = List.nth tokens 7;
+  qtdIng3 = List.nth tokens 8;
+  ingrediente4 = List.nth tokens 9;
+  qtdIng4 = List.nth tokens 10;
+  ingrediente5 = List.nth tokens 11;
+  qtdIng5 = List.nth tokens 12;
+  ingrediente6 = List.nth tokens 13;
+  qtdIng6 = List.nth tokens 14;
+  ingrediente7 = List.nth tokens 15;
+  qtdIng7 = List.nth tokens 16;
+  ingrediente8 = List.nth tokens 17;
+  qtdIng8 = List.nth tokens 18;
+  ingrediente9 = List.nth tokens 19;
+  qtdIng9 = List.nth tokens 20;
+  ingrediente10 = List.nth tokens 21;
+  qtdIng10 = List.nth tokens 22;
+  ingrediente11 = List.nth tokens 23;
+  qtdIng11 = List.nth tokens 24;
+  }
 );;
 
-let lerFicheiro ficheiro : registo list =(
-  let lista : registo list = []; in 
-  let canal = open_in ficheiro in                                 (*Abrir o ficheiro*)
-  try
-  while true                                                                
-    do
-      let linha = input_line canal in
-      let registo = separar linha in
-      registo :: lista;
-      Printf.printf "[%s]" registo.numero;
-      (*lista@[separar linha];*)
-    done; lista;
-    with End_of_file -> close_in canal; lista;
+(*Função para ler o ficheiro
+- recebe string como argumento
+- retorna lista string*)
+let lerFicheiro ficheiro : registo list =( 
+  if Sys.file_exists (ficheiro) then 
+    begin
+      let canal = open_in ficheiro in                                 (*Abrir o ficheiro*)
+      try let ler () = 
+        try Some (input_line canal) with End_of_file ->None in
+        let rec lerLinha lista = 
+          match ler () with
+          | Some linha -> lerLinha(separar linha ::lista)
+          | None -> close_in_noerr canal; List.rev lista in lerLinha[]
+      with e -> close_in_noerr canal; []
+    end
+  else []
 );;
 
 let imprimirRegisto registo = (
-  Printf.printf "nome: %s" registo.nome;
+  Printf.printf "Receita: %s\n" registo.nome;
+  Printf.printf "Receita: %s\n" registo.preparacao;
 
 );;
 
 let rec obterRegisto lista index =(
-    match lista with
+  match lista with
   | [] -> raise (Failure "Lista esta vazia")
   | first::rest -> 
       if index = 0 then first 
       else obterRegisto rest (index-1)
 );;
 
+let criarRegistos listaS : registo list =(
+  let rec listaRegisto listaR = (
+    match listaS with
+    | []-> []
+    | h::t -> listaRegisto(separar h :: listaR);
+  )in listaRegisto [];
+);;
 
 let menu = (
-  let dados = lerFicheiro ficheiro; in
+  let registosLista = lerFicheiro ficheiro in
   ignore(Sys.command "clear");
   print_string "\nIndique o numero da receita que pretende visulizar: ";
   let indice = read_int() in
-  let receita = obterRegisto dados indice in
+  let receita = obterRegisto registosLista indice in
   imprimirRegisto receita;
 );;
 
