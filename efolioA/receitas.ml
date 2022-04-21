@@ -1,3 +1,14 @@
+(*
+ * Autor: Hernâni Coelho
+ * Aluno: 1800045
+ * Data: 20/04/2022
+ * versão 1.0
+*)
+
+open Printf;;
+open Format;;
+(*Indicação nome do ficheiro para ler*)
+let ficheiro ="dados/receitas.csv";;
 
 (*Estrutura de Dados de um Registo*)
 type registo ={
@@ -27,13 +38,6 @@ type registo ={
   mutable ingrediente11: string;
   mutable qtdIng11: string;
 }
-
-(*Indicação nome do ficheiro para ler*)
-let ficheiro ="receitas.csv";;
-
-let obterValorInteiro valor = (
-  int_of_string valor
-);;
 
 (*Obtém o valor em formato string, que se encontra na cabelça da lista recebida 
 - Retorna String do facto - caso receba algo
@@ -78,7 +82,7 @@ let separar linha = (
 
 (*Função para ler o ficheiro
 - recebe string como argumento
-- retorna lista string*)
+- retorna lista registos*)
 let lerFicheiro ficheiro : registo list =( 
   if Sys.file_exists (ficheiro) then 
     begin
@@ -94,11 +98,39 @@ let lerFicheiro ficheiro : registo list =(
   else []
 );;
 
-let imprimirRegisto registo = (
-  Printf.printf "Receita: %s\n" registo.nome;
-  Printf.printf "Receita: %s\n" registo.preparacao;
 
+let imprimirRegisto registo = (
+  print_endline (String.make 60 '-');  
+  Printf.printf "|  Receita %s: %-45s|\n" registo.numero registo.nome;
+  print_endline (String.make 60 '-');
+  Printf.printf "|         Ingredientes         |         Quantidade        |\n"; 
+  print_endline (String.make 60 '-');
+  Printf.printf "|  1: %-24s | %-25s |\n" registo.ingrediente1 registo.qtdIng1;
+  print_endline (String.make 60 '-'); 
+  Printf.printf "|  2: %-24s | %-25s |\n" registo.ingrediente2 registo.qtdIng2;
+  print_endline (String.make 60 '-'); 
+  Printf.printf "|  3: %-24s | %-25s |\n" registo.ingrediente3 registo.qtdIng3;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  4: %-24s | %-25s |\n" registo.ingrediente4 registo.qtdIng4;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  5: %-24s | %-25s |\n" registo.ingrediente5 registo.qtdIng5;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  6: %-24s | %-25s |\n" registo.ingrediente6 registo.qtdIng6;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  7: %-24s | %-25s |\n" registo.ingrediente7 registo.qtdIng7;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  8: %-24s | %-25s |\n" registo.ingrediente8 registo.qtdIng8;
+  print_endline (String.make 60 '-');
+  Printf.printf "|  9: %-24s | %-25s |\n" registo.ingrediente9 registo.qtdIng9;
+  print_endline (String.make 60 '-');
+  Printf.printf "| 10: %-24s | %-25s |\n" registo.ingrediente10 registo.qtdIng10;
+  print_endline (String.make 60 '-');
+  Printf.printf "| 11: %-24s | %-25s |\n" registo.ingrediente11 registo.qtdIng11;
+  print_endline (String.make 60 '-');
+  Printf.printf "\nModo de Preparação:\n%s\n" registo.preparacao;
 );;
+
+
 
 let rec obterRegisto lista index =(
   match lista with
@@ -107,26 +139,17 @@ let rec obterRegisto lista index =(
       if index = 0 then first 
       else obterRegisto rest (index-1)
 );;
-
-let criarRegistos listaS : registo list =(
-  let rec listaRegisto listaR = (
-    match listaS with
-    | []-> []
-    | h::t -> listaRegisto(separar h :: listaR);
-  )in listaRegisto [];
-);;
-
 let menu = (
-  let registosLista = lerFicheiro ficheiro in
+  let registosLista = lerFicheiro ficheiro in  
   ignore(Sys.command "clear");
-  print_string "\nIndique o numero da receita que pretende visulizar: ";
-  let indice = read_int() in
+  Printf.printf ("\nIndique o numero da receita que pretende visulizar: ");
+  let indice = read_int() in 
   let receita = obterRegisto registosLista indice in
   imprimirRegisto receita;
 );;
 
 
 (*Inicio do Programa*)
-let() = (
+let main() = (
   menu;
 );;
