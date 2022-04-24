@@ -171,7 +171,7 @@ let menu = (
       ignore(Sys.command "clear");                            (*limpa tela*)
       Printf.printf ("\n*****Bem Vindo ao Mundo das Receitas*****\n\n");  
       imprimirMenuReceitas lRegistos;                         (*Imprime resumo das receitas disponiveis*)
-      Printf.printf ("Indique a opção que pretende:\n\t1 - Visualizar uma receita\n\t2 - Escolha diária do chef em número de três receitas\n\t0 - Sair\nOpção: ");
+      Printf.printf ("Indique a opção que pretende:\n\t1 - Consultar uma receita\n\t2 - Escolha diária do chef em número de três receitas\n\t0 - Sair\nOpção: ");
       let controlo = read_int() in                            (*utilizador indica opcao, para o levar à funcionalidade pretendida*)
         if controlo = 1 then (                        
           Printf.printf ("\nIndique o numero da receita que pretende visualizar: ");
