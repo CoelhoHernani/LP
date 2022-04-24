@@ -94,31 +94,31 @@ let lerFicheiro ficheiro : registo list =(
 - não retorna nada (unit)*)
 let imprimirRegisto registo = (
   print_endline (String.make 75 '-');  
-  Printf.printf "|  Receita %s: %-60s|\n" registo.numero registo.nome;
+  Printf.printf "  Receita %s: %-59s\n" registo.numero registo.nome;
   print_endline (String.make 75 '-');
-  Printf.printf "|         Ingredientes          |                Quantidade               |\n"; 
+  Printf.printf "         Ingredientes                          Quantidade               \n"; 
   print_endline (String.make 75 '-');
-  Printf.printf "|  1: %-25s | %-39s |\n" registo.ingrediente1 registo.qtdIng1;
+  Printf.printf "  1: %-25s  %-39s \n" registo.ingrediente1 registo.qtdIng1;
   print_endline (String.make 75 '-'); 
-  Printf.printf "|  2: %-25s | %-39s |\n" registo.ingrediente2 registo.qtdIng2;
+  Printf.printf "  2: %-25s  %-39s \n" registo.ingrediente2 registo.qtdIng2;
   print_endline (String.make 75 '-'); 
-  Printf.printf "|  3: %-25s | %-39s |\n" registo.ingrediente3 registo.qtdIng3;
+  Printf.printf "  3: %-25s  %-39s \n" registo.ingrediente3 registo.qtdIng3;
   print_endline (String.make 75 '-');
-  Printf.printf "|  4: %-25s | %-39s |\n" registo.ingrediente4 registo.qtdIng4;
+  Printf.printf "  4: %-25s  %-39s \n" registo.ingrediente4 registo.qtdIng4;
   print_endline (String.make 75 '-');
-  Printf.printf "|  5: %-25s | %-39s |\n" registo.ingrediente5 registo.qtdIng5;
+  Printf.printf "  5: %-25s  %-39s \n" registo.ingrediente5 registo.qtdIng5;
   print_endline (String.make 75 '-');
-  Printf.printf "|  6: %-25s | %-39s |\n" registo.ingrediente6 registo.qtdIng6;
+  Printf.printf "  6: %-25s  %-39s \n" registo.ingrediente6 registo.qtdIng6;
   print_endline (String.make 75 '-');
-  Printf.printf "|  7: %-25s | %-39s |\n" registo.ingrediente7 registo.qtdIng7;
+  Printf.printf "  7: %-25s  %-39s \n" registo.ingrediente7 registo.qtdIng7;
   print_endline (String.make 75 '-');
-  Printf.printf "|  8: %-25s | %-39s |\n" registo.ingrediente8 registo.qtdIng8;
+  Printf.printf "  8: %-25s  %-39s \n" registo.ingrediente8 registo.qtdIng8;
   print_endline (String.make 75 '-');
-  Printf.printf "|  9: %-25s | %-39s |\n" registo.ingrediente9 registo.qtdIng9;
+  Printf.printf "  9: %-25s  %-39s \n" registo.ingrediente9 registo.qtdIng9;
   print_endline (String.make 75 '-');
-  Printf.printf "| 10: %-25s | %-39s |\n" registo.ingrediente10 registo.qtdIng10;
+  Printf.printf " 10: %-25s  %-39s \n" registo.ingrediente10 registo.qtdIng10;
   print_endline (String.make 75 '-');
-  Printf.printf "| 11: %-25s | %-39s |\n" registo.ingrediente11 registo.qtdIng11;
+  Printf.printf " 11: %-25s  %-39s \n" registo.ingrediente11 registo.qtdIng11;
   print_endline (String.make 75 '-');
   Printf.printf "\nModo de Preparação:\n%s\n\n" registo.preparacao;
 );;
@@ -136,7 +136,7 @@ let obterRegisto lista indice =(
 let rec imprimirMenuReceitas lista =( 
   match lista with
   | [] -> print_endline (String.make 38 '-');Printf.printf("Estas são as receitas diponiveis de momento!\n\n\n");
-  | h::t -> print_endline (String.make 38 '-'); (Printf.printf "| %2s: %-30s |\n" h.numero h.nome); imprimirMenuReceitas t;
+  | h::t -> print_endline (String.make 38 '-'); (Printf.printf " %2s: %-30s \n" h.numero h.nome); imprimirMenuReceitas t;
 );; 
 
 (*Função que mediante as receitas selecionadas cria uma nova lista só com esses registos
