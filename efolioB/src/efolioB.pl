@@ -72,8 +72,8 @@ opcao(9) :-
     ano_descoberta_corpo(Corpo), retornamenu.					%%'Respectiva função e retorno ao menu'
 				  
 opcao(10) :- 
-    nl, writeln('Indique o corpo celeste:'),read(Corpo),
-	lista_corpos_celeste(Corpo), retornamenu.
+    nl, writeln('Opcao em desenvolvimento.'), retornamenu.
+    %listar_corpos_celeste(Corpo), retornamenu.
 
 opcao(11) :-
     nl, writeln('Indique o corpo celeste que pretende atualizar:'),read(Corpo),

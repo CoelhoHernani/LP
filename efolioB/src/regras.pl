@@ -7,7 +7,7 @@ show_list(X):-
 orbita(CorpoX, CorpoY) :- 
     corpoCeleste(CorpoX,_,_,_,_), true,
     corpoCeleste(CorpoY,_,_,_,_), true,
-    (corpoCeleste(CorpoX,_,CorpoY,_,_) -> write("yes"); write("no"));
+    (corpoCeleste(CorpoX,_,CorpoY,_,_), write("yes"); write("no"));
     format('O corpo ~w ou ~w nao existe.', [CorpoX, CorpoY]).
 
 listar_planeta(Estrela) :-
@@ -29,16 +29,17 @@ listar_planetas_com_satelites :-
                             
 tem_satelite(Planeta):-
     corpoCeleste(Planeta,'planeta',_,_,_), true,
-    (corpoCeleste(_,'satelite',Planeta,_,_) ->write("yes"); write("no"));
+    (corpoCeleste(_,'satelite',Planeta,_,_), write("yes"); write("no"));
     format('~w nao e um planeta ou nao existe.', [Planeta]).
 
 maior_planeta :-
     findall(Diametro,corpoCeleste(_,'planeta',_,Diametro,_),Lista), max(Lista,0).
 
 max([],D) :- 
-    corpoCeleste(Planeta,'planeta',_,D,_)->write(Planeta).
+    corpoCeleste(Planeta,'planeta',_,D,_), 
+    format('O maior planeta e ~w com ~w km diametro.', [Planeta,D]).
 max([H|T],D) :- 
-    H>D -> L=H,
+    H>D, L=H,
     max(T,L); max(T,D).
 
 total_corpos_celeste(Corpo):-
@@ -63,10 +64,8 @@ ano_descoberta_corpo(Corpo):-
     format('O corpo celeste ~w foi descoberto no ano ~w.', [Corpo, Ano]);
     format('~w nao existe.', [Corpo]).
 
-lista_corpos_celeste(Corpo):-
-    findall(C,corpoCeleste(C,_,_,_,_),Lista),
-    nth0(Indice, Lista, Corpo),
-    write(Indice).     
+%lista_corpos_celeste(Corpo):-
+     
 
 alterar_ano_descoberta_corpo(Corpo,Ano):-
     corpoCeleste(Corpo,_,_,_,_), true,
