@@ -8,7 +8,7 @@
 %menu do utilizador
 main :-																						
 	writeln("Menu"), nl, 
-    writeln('>> opcao um comando, seguido de um ponto final:'),
+    writeln('>> Indique a opcao seguido de um ponto final:'),
     writeln('  0. Sair'),
     writeln('  1. Verificar se o corpo celeste X orbita em torno de Y'),
 	writeln('  2. Listar planetas de uma estrela'),
