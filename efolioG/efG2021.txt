@@ -1,0 +1,214 @@
+EFG junho 2021
+------------------------------------------------------
+1a. Ocaml
+
+let lista1 = [1;2;-4;5];;
+let lista2 = [5;4;6;-8];;
+
+let rec funcao lista1 lista2 = (
+  match (lista1, lista2) with
+  |[],_ -> []
+  |_,[] -> []    
+  |(h1::t1),(h2::t2) -> if (h1 > 0 && h2 > 0) then (h1+h2)/2::funcao t1 t2 else (h1+h2)::funcao t1 t2
+);;
+
+funcao lista1 lista2;;
+
+------------------------------------------------------
+
+2b. Prolog
+
+%base conhecimento
+listar([], [], []).
+
+%Regra
+listar([H1|T1], [H2|T2], [HR|TR]) :-
+    (H1 > 0, H2 > 0), HR is (H1+H2)/2, listar(T1, T2, TR); HR is H1+H2, listar(T1, T2, TR).
+
+%query
+listar([1;2;-4;5], [5;4;6;-8], []).
+
+------------------------------------------------------
+
+3c. Java
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+      List<Integer> lista1 = Arrays.asList(1,6,3,4,5);
+      List<Integer> lista2 = Arrays.asList(5,4,3,5,7);
+      List<Integer> lista3 = new ArrayList<Integer>();
+    
+      for(int i=0; i < lista1.size(); i++){
+        if(lista1.get(i) > 0 && lista2.get(i) > 0) 
+          lista3.add((lista1.get(i)+lista2.get(i))/2);
+        else
+        lista3.add(lista1.get(i)+lista2.get(i));
+      }
+
+      for(int i=0; i < lista3.size(); i++){
+        System.out.print(" " + lista3.get(i));
+      }
+    }
+}
+
+-----------------------------------------------------
+Grupo II
+
+1. Ocaml
+
+type 'a binary_tree =
+    | Empty
+    | Node of 'a * 'a binary_tree * 'a binary_tree;;
+
+let example_tree =
+    Node (1, Node (2, Node (4, Empty, Empty), Node (5, Empty, Empty)), Node (3, Empty, Node (6, Node (7, Empty, Empty), Empty)));;
+
+let rec top t =
+    match t with
+    Empty->0
+    |Node(v,l,r)-> if (if v > top l then v else top l) > top r then (if v > top l then v else top l) else top r;;
+
+let rec lower t =
+    match t with
+    Empty->999999
+    |Node(v,l,r)-> if (if v < lower l then v else lower l) < lower r then (if v < lower l then v else lower l) else lower r;;
+
+top example_tree - lower example_tree;;
+
+-----------------------------------------------------
+
+2. Prolog
+
+%base conhecimento
+teste_covid(a, 01-01-22, positivo, pcr).
+teste_covid(b, 01-01-22, positivo, pcr).
+teste_covid(c, 05-01-22, positivo, sorologico).
+teste_covid(d, 10-01-22, positivo, pcr).
+
+%regra
+testes_positivos(Data, TipoTeste, Lista) :-
+    findall(Utente, teste_covid(Utente,Data,positivo,TipoTeste), Lista).
+
+%query
+testes_positivos(01-01-22, pcr, Lista).
+
+------------------------------------------------------
+
+3a. java
+
+import java.util.*;
+import java.util.Date;
+import java.time.LocalTime
+
+public class Main {
+    public enum Classifica { T, M6, M10, M12, M16, M18 }
+    public enum GeneroM { drama, policial, comédia, ação }
+
+    public static class Video {
+        private Integer Id;
+        private String Titulo
+        private LocalTime Duracao;
+        private Date Lancamento;
+        private Classifica Classificacao;
+        private GeneroM Genero;
+        private Boolean Disponibilidade;
+        private String Sinopse;
+        private String Url;
+        private List<Video> Videos;
+        private List<Visualizacao> Visualizacoes;
+        private Integer TotalVideosDisponiveis;
+
+        //Gets
+        //....
+        public List<Video> getVideos() {
+            return Videos;
+        }
+        public List<Visualizacao> getVisualizacoes() {
+            return Visualizacao;
+        }
+
+        //Sets
+        //....
+        //Metodos
+        public void listaVideosDisponiveis(){
+            Integer devolve = 0;
+            List<Video> videos = getVideos();
+            for (int i = 0; i < videos.size(); i++) {
+                Video VideoTMP = videos.get(i);
+                if(VideoTMP.Disponibilidade){
+                devolve ++
+                }
+            }
+            this.TotalVideosDisponiveis = devolve;
+        }
+
+        public void ImprimirInformacao(){
+            List<Video> videos = getVideos();
+            List<Visualizacao> visualizacoes = getVisualizacoes();
+            for (int i = 0; i < videos.size(); i++) {
+                Integer totalVisualizacoes = 0;
+                Integer totalGostos = 0;
+                Video VideoTMP = videos.get(i);
+                for (int a = 0; a < visualizacoes.size(); a++) {
+                    Visualizacao VisualizacaoTMP = visualizacoes.get(a);
+                    totalVisualizacoes = VisualizacaoTMP.totalVisualizacoesPorVideo(VideoTMP.Id);
+                    totalGostos = VisualizacaoTMP.totalGostosPorVideo(VideoTMP.Id);
+                }
+                System.out.println("Titulo: " + VideoTMP.getTitulo() +
+                "Género,: " + VideoTMP.getGenero()+
+                "Total de visualizações" + totalVisualizacoes +
+                " total de gostos" + totalGostos);
+            }
+        }
+    }
+
+
+    public static class Visualizacao {
+        private Integer IdVideo;
+        private String subscritor,
+        private Date visualização,;
+        private Boolean Gosto;
+        private String Sinopse;
+        private String Url;
+        private List<Visualizacao> Visualizacoes;
+        private Integer TotalVisualizacoesPorVideo;
+        private Integer TotalGostosPorVideo;
+        
+        //Gets
+        //....
+        public List<Visualizacao> GetVisualizacoes() {
+            return Visualizacoes;
+        }
+
+        //Sets
+        //....
+        //Metodos
+        public void totalVisualizacoesPorVideo(Integer id){
+            Integer devolve = 0;
+            List<Visualizacao> visualizacoes = GetVisualizacoes();
+            for (int i = 0; i < visualizacoes.size(); i++) {
+                Visualizacao VisualizacaoTMP = visualizacoes.get(i);
+                if(VisualizacaoTMP.IdVideo == id){
+                    devolve ++
+                }
+            }
+            this.TotalVisualizacoesPorVideo = devolve;
+        }
+        public void totalGostosPorVideo(Integer id){
+            Integer devolve = 0;
+            List<Visualizacao> visualizacoes = GetVisualizacoes();
+            for (int i = 0; i < visualizacoes.size(); i++) {
+                Visualizacao VisualizacaoTMP = visualizacoes.get(i);
+                if(VisualizacaoTMP.IdVideo == id && VisualizacaoTMP.Gosto){
+                    devolve ++
+                }
+            }
+            this.TotalGostosPorVideo = devolve;
+        }
+    }
+}
+
+
+
